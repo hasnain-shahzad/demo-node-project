@@ -1,20 +1,31 @@
 var express = require('express');
-var bodyParser = require('body-parser');
 var bcrypt = require('bcrypt');
 var app = express();
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+var path = require('path')
+var registeruser = require('./model')
+var config = require('./config')
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine','ejs');
+
 app.get("/",function(req,res){
-    res.send('The Starting Page')
+    res.render("form");
 })
-// const saltRounds = 10;
-// const myPlaintextPassword = '6';
-// (async () => {
-//     const salt = await bcrypt.genSalt(saltRounds);
-//     bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
-//         console.log(hash)
-//     });
-// })();
+app.post("/addUser",function(req,res){
+  var userdata = req.body;
+  var adduser =new registeruser({
+      username: userdata.username,
+      password : userdata.password
+  });
+  adduser.save().then(function(){
+      res.send("Data Saved Successfully")
+  }).
+  catch(function(err){
+      res.status(401).json(err.message)
+  })
+})
+
 app.listen(3000,()=>{
     console.log('Listening to port 3000')
 })
