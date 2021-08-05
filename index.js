@@ -7,14 +7,14 @@ app.use(bodyParser.json())
 app.get("/",function(req,res){
     res.send('The Starting Page')
 })
-const saltRounds = 10;
-const myPlaintextPassword = '6';
-(async () => {
-    const salt = await bcrypt.genSalt(saltRounds);
-    bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
-        console.log(hash)
-    });
-})();
+// const saltRounds = 10;
+// const myPlaintextPassword = '6';
+// (async () => {
+//     const salt = await bcrypt.genSalt(saltRounds);
+//     bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+//         console.log(hash)
+//     });
+// })();
 app.listen(3000,()=>{
     console.log('Listening to port 3000')
 })
